@@ -13,6 +13,7 @@ function disable_usb {
 	echo "Disabling USB storage"
 	DISABLE="mv /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.ko /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.backup"
 	unmount_usb_drives
+	rmmod uas
 	rmmod usb_storage
 	`$DISABLE`
 }
