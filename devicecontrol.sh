@@ -6,37 +6,37 @@ function unmount_usb_drives {
 	USB_DRIVES="$(for devlink in /dev/disk/by-id/usb*; do readlink -f ${devlink}; done)"
 	for usb_drive in $USB_DRIVES; do
 		echo Unmounting $usb_drive
-		umount -f $usb_drive
+		/bin/umount -f $usb_drive
 	done
 }
 function disable_usb {
 	echo "Disabling USB storage"
 	DISABLE="/bin/mv /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.ko /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.backup"
-	unmount_usb_drives
-	rmmod uas
-	rmmod usb_storage
+	/bin/unmount_usb_drives
+	/sbin/rmmod uas
+	/sbin/rmmod usb_storage
 	`$DISABLE`
 }
 function enable_usb {
 	echo "Enabling USB storage"
 	ENABLE="/bin/mv /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.backup /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.ko"
 	`$ENABLE`
-	modprobe usb_storage
+	/sbin/modprobe usb_storage
 }
 
 function disable_cdrom {
 	echo "Disabling CDROM"
-	umount -f /dev/sr0
+	/bin/umount -f /dev/sr0
 	DISABLE="/bin/mv /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.ko /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.backup"
 	`$DISABLE`
-	rmmod sr_mod
+	/sbin/rmmod sr_mod
 }
 
 function enable_cdrom {
 	echo "Enabling CDROM"
 	ENABLE="/bin/mv /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.backup /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.ko"
 	`$ENABLE`
-	modprobe sr_mod
+	/sbin/modprobe sr_mod
 }
 
 
