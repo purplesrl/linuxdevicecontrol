@@ -11,7 +11,7 @@ function unmount_usb_drives {
 }
 function disable_usb {
 	echo "Disabling USB storage"
-	DISABLE="mv /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.ko /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.backup"
+	DISABLE="/bin/mv /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.ko /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.backup"
 	unmount_usb_drives
 	rmmod uas
 	rmmod usb_storage
@@ -19,7 +19,7 @@ function disable_usb {
 }
 function enable_usb {
 	echo "Enabling USB storage"
-	ENABLE="mv /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.backup /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.ko"
+	ENABLE="/bin/mv /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.backup /lib/modules/$KERNEL/kernel/drivers/usb/storage/usb-storage.ko"
 	`$ENABLE`
 	modprobe usb_storage
 }
@@ -27,14 +27,14 @@ function enable_usb {
 function disable_cdrom {
 	echo "Disabling CDROM"
 	umount -f /dev/sr0
-	DISABLE="mv /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.ko /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.backup"
+	DISABLE="/bin/mv /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.ko /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.backup"
 	`$DISABLE`
 	rmmod sr_mod
 }
 
 function enable_cdrom {
 	echo "Enabling CDROM"
-	ENABLE="mv /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.backup /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.ko"
+	ENABLE="/bin/mv /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.backup /lib/modules/$KERNEL/kernel/drivers/scsi/sr_mod.ko"
 	`$ENABLE`
 	modprobe sr_mod
 }
